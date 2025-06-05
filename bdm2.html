@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BDM-POS Menu</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+
+  body {
+    margin: 0;
+    font-family: 'Righteous', cursive;
+    background: linear-gradient(to bottom right, #0d47a1, #000000);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: white;
+  }
+
+  /* Container */
+  .bdm1-wrapper {
+    max-width: 260px;
+    background-color: #121212;
+    border-radius: 16px;
+    padding: 2.5rem 1.2rem 1.2rem; /* more top padding */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 400px;
+  }
+
+  /* Title */
+  .bdm1-logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #42a5f5;
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px 3px #000;
+  }
+
+  /* Menu Buttons container */
+  .bdm1-menu-buttons {
+    flex-grow: 1;
+  }
+
+  /* Menu Buttons */
+  .bdm1-menu-btn {
+    width: 100%;
+    padding: 0.6rem;
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    background: #1565c0;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.3s ease;
+  }
+  .bdm1-menu-btn:hover {
+    background: #0d47a1;
+  }
+
+  /* Sign Out Button */
+  .bdm1-signout-btn {
+    background: #81d4fa;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 20px;
+    font-size: 0.9rem;
+    color: #0d47a1;
+    cursor: pointer;
+    user-select: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    transition: background 0.3s ease;
+    margin: 1.5rem auto 0 auto; /* bottom center with margin on top */
+    width: fit-content;
+  }
+  .bdm1-signout-btn:hover {
+    background: #4fc3f7;
+  }
+
+  /* Popup Overlay */
+  #bdm1Popup {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+
+  /* Popup Content */
+  #bdm1PopupContent {
+    background: #121212;
+    padding: 1rem;
+    border-radius: 16px;
+    width: 260px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    position: relative;
+  }
+
+  /* Popup Title */
+  #bdm1PopupContent h2 {
+    color: #42a5f5;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    text-shadow: 1px 1px 3px #000;
+  }
+
+  /* PIN input */
+  #bdm1PinInput {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 6px;
+    background: #222;
+    color: white;
+    text-align: center;
+    letter-spacing: 10px;
+    margin-bottom: 1rem;
+    user-select: none;
+  }
+
+  /* Popup Keypad */
+  .bdm1-keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 1rem;
+  }
+
+  .bdm1-keypad button {
+    padding: 0.5rem 0;
+    font-size: 0.8rem;
+    border-radius: 8px;
+    border: none;
+    background: #1565c0;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  /* Cancel button with icon style */
+  #bdm1Clear {
+    background: #b71c1c;
+    font-weight: bold;
+    position: relative;
+  }
+  #bdm1Clear::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    width: 12px;
+    height: 12px;
+    border-left: 2px solid white;
+    border-bottom: 2px solid white;
+  }
+  #bdm1Clear::after {
+    content: '';
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%) rotate(-45deg);
+    width: 12px;
+    height: 12px;
+    border-left: 2px solid white;
+    border-bottom: 2px solid white;
+  }
+
+  /* Login Button */
+  #bdm1Login {
+    background: #81d4fa;
+    color: #0d47a1;
+    font-weight: bold;
+  }
+
+  /* Popup error */
+  #bdm1PopupError {
+    color: #ef5350;
+    min-height: 1.2rem;
+    margin-top: 0.3rem;
+    font-size: 0.85rem;
+  }
+</style>
+</head>
+<body>
+
+<div class="bdm1-wrapper" id="bdm2MenuPage">
+
+  <div class="bdm1-logo">BDM-POS</div>
+
+  <div class="bdm1-menu-buttons">
+    <button class="bdm1-menu-btn" data-pin="1111" data-screen="Custom screen">Custom screen</button>
+    <button class="bdm1-menu-btn" data-pin="2222" data-screen="Kitchen screen">Kitchen screen</button>
+    <button class="bdm1-menu-btn" data-pin="3333" data-screen="Dashboard screen">Dashboard screen</button>
+  </div>
+
+  <button class="bdm1-signout-btn" id="bdm1SignOutBtn">Sign Out</button>
+</div>
+
+<!-- PIN Popup -->
+<div id="bdm1Popup">
+  <div id="bdm1PopupContent">
+    <h2 id="bdm1ScreenName"></h2>
+    <input type="password" id="bdm1PinInput" readonly />
+    <div class="bdm1-keypad">
+      <button data-key="1">1</button>
+      <button data-key="2">2</button>
+      <button data-key="3">3</button>
+      <button data-key="4">4</button>
+      <button data-key="5">5</button>
+      <button data-key="6">6</button>
+      <button data-key="7">7</button>
+      <button data-key="8">8</button>
+      <button data-key="9">9</button>
+      <button id="bdm1Clear"></button>
+      <button data-key="0">0</button>
+      <button id="bdm1Login">Login</button>
+    </div>
+    <div id="bdm1PopupError"></div>
+  </div>
+</div>
+
+<script>
+  const menuButtons = document.querySelectorAll('.bdm1-menu-btn');
+  const popup = document.getElementById('bdm1Popup');
+  const popupScreenName = document.getElementById('bdm1ScreenName');
+  const popupPinInput = document.getElementById('bdm1PinInput');
+  const popupKeypad = popup.querySelector('.bdm1-keypad');
+  const popupCancel = document.getElementById('bdm1Clear');
+  const popupLoginBtn = document.getElementById('bdm1Login');
+  const popupError = document.getElementById('bdm1PopupError');
+  const signOutBtn = document.getElementById('bdm1SignOutBtn');
+  const menuPage = document.getElementById('bdm2MenuPage');
+
+  let popupPin = '';
+  let currentPinRequired = '';
+  let currentScreen = '';
+
+  menuButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentPinRequired = btn.getAttribute('data-pin');
+      currentScreen = btn.getAttribute('data-screen');
+      popupScreenName.textContent = currentScreen;
+      popupPin = '';
+      popupPinInput.value = '';
+      popupError.textContent = '';
+      popup.style.display = 'flex';
+    });
+  });
+
+  popupKeypad.addEventListener('click', e => {
+    if (e.target.tagName !== 'BUTTON') return;
+    if (e.target.dataset.key) {
+      if (popupPin.length < 4) {
+        popupPin += e.target.dataset.key;
+        popupPinInput.value = '*'.repeat(popupPin.length);
+        popupError.textContent = '';
+      }
+    }
+  });
+
+  popupCancel.addEventListener('click', () => {
+    popupPin = popupPin.slice(0, -1);
+    popupPinInput.value = '*'.repeat(popupPin.length);
+    popupError.textContent = '';
+  });
+
+  popupLoginBtn.addEventListener('click', () => {
+    if (popupPin === currentPinRequired) {
+      popup.style.display = 'none';
+      alert(`Access granted to ${currentScreen}`);
+      popupPin = '';
+      popupPinInput.value = '';
+      popupError.textContent = '';
+    } else {
+      popupError.textContent = 'Invalid PIN';
+      popupPin = '';
+      popupPinInput.value = '';
+    }
+  });
+
+  popup.addEventListener('click', e => {
+    if (e.target === popup) {
+      popup.style.display = 'none';
+      popupPin = '';
+      popupPinInput.value = '';
+      popupError.textContent = '';
+    }
+  });
+
+  signOutBtn.addEventListener('click', () => {
+  window.location.href = 'bdm1.html';
+});
+</script>
+
+</body>
+</html>
