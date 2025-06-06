@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Welcome Page</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom right, #0d47a1, #000000);
+      color: #90caf9;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .power-symbol {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      font-size: 1.8rem;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.2s ease, text-shadow 0.2s ease;
+    }
+
+    .power-symbol:hover {
+      transform: scale(1.2);
+      text-shadow: 0 0 8px #ffffffaa;
+    }
+
+    .logo {
+      width: 160px;
+      margin-bottom: 1.5rem;
+    }
+
+    .welcome-text {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .restaurant-name {
+      font-size: 1.7rem;
+      font-weight: 600;
+      color: #42a5f5;
+      margin: 0.5rem 0 2rem;
+    }
+
+    .message {
+      font-size: 1rem;
+      color: #bbdefb;
+      margin-bottom: 1.5rem;
+    }
+
+    .start-btn {
+      background-color: #42a5f5;
+      color: #0d47a1;
+      font-size: 1.1rem;
+      font-weight: bold;
+      padding: 0.75rem 2.5rem;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(66, 165, 245, 0.6);
+      transition: background-color 0.3s ease;
+      text-transform: lowercase;
+    }
+
+    .start-btn:hover {
+      background-color: #64b5f6;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.6);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: #121212;
+      padding: 1.5rem;
+      border-radius: 12px;
+      text-align: center;
+      color: white;
+      max-width: 300px;
+      width: 90%;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-content p {
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .modal-buttons button {
+      flex: 1;
+      padding: 0.6rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .btn-cancel {
+      background-color: #757575;
+      color: white;
+    }
+
+    .btn-logout {
+      background-color: #ef5350;
+      color: white;
+    }
+
+    .btn-cancel:hover {
+      background-color: #9e9e9e;
+    }
+
+    .btn-logout:hover {
+      background-color: #f44336;
+    }
+
+    @media (min-width: 600px) {
+      .logo {
+        width: 200px;
+      }
+
+      .welcome-text {
+        font-size: 1.5rem;
+      }
+
+      .restaurant-name {
+        font-size: 2.1rem;
+      }
+
+      .message {
+        font-size: 1.1rem;
+      }
+
+      .start-btn {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Power icon -->
+  <div class="power-symbol" onclick="openModal()">&#x23FB;</div>
+
+  <!-- Logo -->
+  <img class="logo" src="https://raw.githubusercontent.com/Davidbantu/images/4b4f9ad268e7045618a3e517df258e204b5f17d3/Logo.png" alt="Logo" />
+
+  <!-- Welcome text -->
+  <div class="welcome-text">WELCOME TO</div>
+  <div class="restaurant-name">[Restaurant Name]</div>
+
+  <!-- Message -->
+  <p class="message">Hello! ready to place your order?</p>
+
+  <!-- Start button -->
+  <button class="start-btn" onclick="goToStart()">start</button>
+
+  <!-- Logout modal -->
+  <div class="modal" id="logoutModal">
+    <div class="modal-content">
+      <p>Are you sure you want to logout?</p>
+      <div class="modal-buttons">
+        <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+        <button class="btn-logout" onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openModal() {
+      document.getElementById('logoutModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('logoutModal').style.display = 'none';
+    }
+
+    function logout() {
+      window.location.href = 'index.html'; // Redirect to logout page
+    }
+
+    function goToStart() {
+      window.location.href = 'bdm4.html'; // Redirect to start page
+    }
+  </script>
+
+</body>
+</html>
