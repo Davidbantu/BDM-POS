@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Select Order Type</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  
+  <!-- Font Awesome CSS CDN for icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+  />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom right, #0d47a1, #000000);
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+      position: relative;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 1.2rem;          /* smaller size */
+      font-weight: 300;           /* thin */
+      color: #90caf9;             /* same as DINE IN text */
+      cursor: pointer;
+      transition: color 0.3s ease;
+      user-select: none;
+      z-index: 10;
+    }
+
+    .back-button:hover {
+      color: #42a5f5;
+    }
+
+    .logo {
+      width: 110px;
+      margin-top: 3rem;
+      margin-bottom: 2rem;
+    }
+
+    .option-grid {
+      display: flex;
+      gap: 1.2rem;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    @media (min-width: 500px) {
+      .option-grid {
+        flex-direction: row;
+        justify-content: center;
+      }
+    }
+
+    .option-box {
+      background-color: #121212;
+      border: 2px solid #42a5f5;
+      border-radius: 14px;
+      width: 140px;
+      height: 140px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #90caf9;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(66, 165, 245, 0.4);
+      user-select: none;
+    }
+
+    .option-box:hover {
+      background-color: #1a1a1a;
+      transform: scale(1.05);
+      box-shadow: 0 6px 16px rgba(66, 165, 245, 0.7);
+    }
+
+    .option-box i {
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+      color: #42a5f5;
+    }
+
+    .instruction {
+      margin-top: 2.5rem;
+      font-size: 1rem;
+      color: #bbdefb;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Back Button -->
+  <div class="back-button" onclick="goBack()" title="Go Back">
+    <i class="fas fa-arrow-left"></i>
+  </div>
+
+  <!-- Logo -->
+  <img
+    class="logo"
+    src="https://raw.githubusercontent.com/Davidbantu/images/4b4f9ad268e7045618a3e517df258e204b5f17d3/Logo.png"
+    alt="Logo"
+  />
+
+  <!-- Option Buttons -->
+  <div class="option-grid">
+    <div class="option-box" onclick="selectOption('dinein')">
+      <i class="fas fa-utensils"></i>
+      DINE IN
+    </div>
+    <div class="option-box" onclick="selectOption('takeaway')">
+      <i class="fas fa-box"></i>
+      TAKE AWAY
+    </div>
+  </div>
+
+  <!-- Instruction Text -->
+  <div class="instruction">Please Select Your Order Type</div>
+
+  <script>
+    function selectOption(mode) {
+      if (mode === 'dinein') {
+        window.location.href = 'bdm5.html';
+      } else if (mode === 'takeaway') {
+        window.location.href = 'bdm6.html';
+      }
+    }
+
+    function goBack() {
+      window.location.href = 'bdm3.html';
+    }
+  </script>
+
+</body>
+</html>
