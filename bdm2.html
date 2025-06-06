@@ -18,12 +18,11 @@
     color: white;
   }
 
-  /* Container */
   .bdm1-wrapper {
     max-width: 260px;
     background-color: #121212;
     border-radius: 16px;
-    padding: 2.5rem 1.2rem 1.2rem; /* more top padding */
+    padding: 2.5rem 1.2rem 1.2rem;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
     text-align: center;
     position: relative;
@@ -32,7 +31,6 @@
     min-height: 400px;
   }
 
-  /* Title */
   .bdm1-logo {
     font-size: 1.8rem;
     font-weight: bold;
@@ -41,12 +39,10 @@
     text-shadow: 1px 1px 3px #000;
   }
 
-  /* Menu Buttons container */
   .bdm1-menu-buttons {
     flex-grow: 1;
   }
 
-  /* Menu Buttons */
   .bdm1-menu-btn {
     width: 100%;
     padding: 0.6rem;
@@ -64,7 +60,6 @@
     background: #0d47a1;
   }
 
-  /* Sign Out Button */
   .bdm1-signout-btn {
     background: #81d4fa;
     border: none;
@@ -76,14 +71,13 @@
     user-select: none;
     box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     transition: background 0.3s ease;
-    margin: 1.5rem auto 0 auto; /* bottom center with margin on top */
+    margin: 1.5rem auto 0 auto;
     width: fit-content;
   }
   .bdm1-signout-btn:hover {
     background: #4fc3f7;
   }
 
-  /* Popup Overlay */
   #bdm1Popup {
     display: none;
     position: fixed;
@@ -94,7 +88,6 @@
     z-index: 999;
   }
 
-  /* Popup Content */
   #bdm1PopupContent {
     background: #121212;
     padding: 1rem;
@@ -105,7 +98,6 @@
     position: relative;
   }
 
-  /* Popup Title */
   #bdm1PopupContent h2 {
     color: #42a5f5;
     margin-bottom: 1rem;
@@ -113,7 +105,6 @@
     text-shadow: 1px 1px 3px #000;
   }
 
-  /* PIN input */
   #bdm1PinInput {
     width: 100%;
     padding: 0.5rem;
@@ -128,7 +119,6 @@
     user-select: none;
   }
 
-  /* Popup Keypad */
   .bdm1-keypad {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -147,7 +137,6 @@
     user-select: none;
   }
 
-  /* Cancel button with icon style */
   #bdm1Clear {
     background: #b71c1c;
     font-weight: bold;
@@ -176,14 +165,12 @@
     border-bottom: 2px solid white;
   }
 
-  /* Login Button */
   #bdm1Login {
     background: #81d4fa;
     color: #0d47a1;
     font-weight: bold;
   }
 
-  /* Popup error */
   #bdm1PopupError {
     color: #ef5350;
     min-height: 1.2rem;
@@ -199,7 +186,7 @@
   <div class="bdm1-logo">BDM-POS</div>
 
   <div class="bdm1-menu-buttons">
-    <button class="bdm1-menu-btn" data-pin="1111" data-screen="Custom screen">Custom screen</button>
+    <button class="bdm1-menu-btn" data-pin="1111" data-screen="Order screen">Order screen</button>
     <button class="bdm1-menu-btn" data-pin="2222" data-screen="Kitchen screen">Kitchen screen</button>
     <button class="bdm1-menu-btn" data-pin="3333" data-screen="Dashboard screen">Dashboard screen</button>
   </div>
@@ -278,10 +265,15 @@
   popupLoginBtn.addEventListener('click', () => {
     if (popupPin === currentPinRequired) {
       popup.style.display = 'none';
-      alert(`Access granted to ${currentScreen}`);
       popupPin = '';
       popupPinInput.value = '';
       popupError.textContent = '';
+
+      if (currentScreen === 'Order screen') {
+        window.location.href = 'bdm3.html';
+      } else {
+        alert(`Access granted to ${currentScreen}`);
+      }
     } else {
       popupError.textContent = 'Invalid PIN';
       popupPin = '';
@@ -299,8 +291,8 @@
   });
 
   signOutBtn.addEventListener('click', () => {
-  window.location.href = 'index.html';
-});
+    window.location.href = 'index.html';
+  });
 </script>
 
 </body>
