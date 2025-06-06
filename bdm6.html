@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TAKE AWAY - MENU</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+  <style>
+    html, body {
+      height: 100%;
+      min-height: 100%;
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      max-width: 100vw;
+      box-sizing: border-box;
+      overflow-x: hidden;
+      background: linear-gradient(to bottom right, #0d47a1, #000000);
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: #fff;
+      min-height: 100vh;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      width: 100vw;
+      max-width: 100vw;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      padding: 20px 18px 12px 18px;
+      position: relative;
+      width: 100%;
+      max-width: 100vw;
+      box-sizing: border-box;
+      background: none;
+      flex-shrink: 0;
+      height: 64px;
+    }
+    .header-spacer {
+      height: 20px;
+      width: 100%;
+      background: transparent;
+      flex-shrink: 0;
+    }
+    .header .back-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #90caf9;
+      font-size: 1.5rem;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: color 0.2s;
+      margin-right: 12px;
+      padding: 4px 8px;
+    }
+    .header .back-button:hover {
+      color: #42a5f5;
+    }
+    .header .logo {
+      width: 44px;
+      height: 44px;
+      margin-right: 14px;
+      border-radius: 12px;
+      object-fit: contain;
+    }
+    .header .title {
+      font-size: 1.18rem;
+      font-weight: 600;
+      color: #bbdefb;
+      letter-spacing: 0.5px;
+      flex: 1;
+      min-width: 0;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .category-bar-container {
+      position: absolute;
+      right: 18px;
+      top: 20px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      z-index: 2;
+      background: transparent;
+      min-width: 220px;
+      max-width: 80vw;
+    }
+    .category-swiper-arrow {
+      background: #121212;
+      color: #42a5f5;
+      border: 2px solid #42a5f5;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 4px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s, border 0.18s;
+      z-index: 3;
+      opacity: 0.9;
+      user-select: none;
+    }
+    .category-swiper-arrow:active,
+    .category-swiper-arrow:hover {
+      background: #42a5f5;
+      color: #fff;
+      border-color: #42a5f5;
+      opacity: 1;
+    }
+    .category-bar {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      background: rgba(18, 18, 18, 0.93);
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(66, 165, 245, 0.08);
+      padding: 4px 8px;
+      min-width: 120px;
+      max-width: 58vw;
+      overflow-x: auto;
+      scrollbar-width: none;
+      border: 2px solid #42a5f5;
+      gap: 7px;
+      scroll-behavior: smooth;
+    }
+    .category-bar::-webkit-scrollbar { display: none; }
+    .category-btn {
+      background: none;
+      border: none;
+      color: #bbdefb;
+      font-size: 0.97rem;
+      font-weight: 500;
+      margin: 0 3px;
+      border-radius: 12px;
+      padding: 6px 14px;
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s;
+      white-space: nowrap;
+      letter-spacing: 0.4px;
+      outline: none;
+      border: 2px solid transparent;
+    }
+    .category-btn.active,
+    .category-btn:focus {
+      background: #42a5f5;
+      color: #fff;
+      border-color: #42a5f5;
+    }
+    .category-btn:hover {
+      background: #1976d2;
+      color: #fff;
+    }
+    /* Left and right page gap */
+    .page-side-gap {
+      width: 18px;
+      min-width: 18px;
+      max-width: 18px;
+      height: 100%;
+      flex-shrink: 0;
+      flex-grow: 0;
+      display: block;
+      background: transparent;
+      pointer-events: none;
+      user-select: none;
+    }
+    .container {
+      flex: 1 1 auto;
+      display: flex;
+      gap: 1.5rem;
+      width: 100vw;
+      max-width: 100vw;
+      margin: 0 auto;
+      padding: 0;
+      box-sizing: border-box;
+      align-items: stretch;
+      min-height: 0;
+      /* Subtract header + spacer + bottom gap */
+      height: calc(100vh - 64px - 20px - 18px);
+    }
+    .menu-section, .cart-section {
+      background: #121212;
+      border: 2px solid #42a5f5;
+      border-radius: 14px;
+      box-shadow: 0 4px 10px rgba(66, 165, 245, 0.18);
+      padding: 1.2rem 1rem;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      max-height: 100%;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 0;
+    }
+    .menu-section {
+      flex: 7 1 0%;
+      min-width: 280px;
+      max-width: 70vw;
+      /* overflow: hidden; */ /* REMOVE THIS LINE */
+      overflow: visible; /* ADD THIS LINE */
+    }
+    .cart-section {
+      flex: 3 1 0%;
+      min-width: 220px;
+      max-width: 30vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      font-size: 0.89rem;
+      overflow: hidden;
+      position: relative;
+      z-index: 0;
+    }
+    .menu-scroll-area {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      min-height: 0;
+      position: relative;
+    }
+    .cart-items-list {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      margin-bottom: 0.85rem;
+      padding-right: 2px;
+      min-height: 0;
+    }
+    .cart-total-row,
+    .cart-checkout-btn {
+      flex-shrink: 0;
+    }
+    .cart-heading-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.68rem;
+    }
+    .cart-heading {
+      font-size: 1.09rem;
+      font-weight: 700;
+      color: #bbdefb;
+      letter-spacing: 0.4px;
+      text-align: left;
+    }
+    .cart-count-badge {
+      display: flex;
+      align-items: center;
+      background: #263859;
+      color: #42a5f5;
+      border-radius: 30px;
+      font-size: 0.97rem;
+      font-weight: 700;
+      padding: 1px 10px 1px 8px;
+      margin-left: 10px;
+      gap: 6px;
+      box-shadow: 0 1px 3px rgba(66,165,245,0.11);
+      border: 1.5px solid #42a5f5;
+      min-width: 30px;
+      justify-content: center;
+    }
+    .cart-count-badge .cart-number {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #81d4fa;
+      min-width: 16px;
+      display: inline-block;
+      text-align: center;
+    }
+    .cart-count-badge .cart-icon {
+      font-size: 1.04rem;
+      color: #42a5f5;
+      margin-left: 3px;
+      display: flex;
+      align-items: center;
+    }
+    .cart-count-badge .cart-icon i {
+      font-size: 1.04rem;
+      color: #42a5f5;
+    }
+    .cart-item-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #181c24;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      padding: 0.43rem 0.4rem;
+      box-shadow: 0 1px 3px rgba(66,165,245,0.08);
+      transition: background 0.2s;
+      font-size: 0.82rem;
+    }
+    .cart-item-row:last-child { margin-bottom: 0; }
+    .cart-item-name {
+      flex: 2;
+      font-size: 0.86rem;
+      font-weight: 500;
+      color: #fff;
+      text-align: left;
+      margin-right: 0.5rem;
+      white-space: normal;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      line-height: 1.22;
+      max-width: 90px;
+    }
+    .cart-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.15rem;
+    }
+    .cart-btn {
+      background: #222;
+      border: none;
+      color: #42a5f5;
+      font-size: 0.89rem;
+      border-radius: 50%;
+      width: 17px;
+      height: 17px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      margin: 0 1px;
+      transition: background 0.2s;
+    }
+    .cart-btn:active, .cart-btn:hover { background: #263859; color: #fff; }
+    .cart-qty {
+      min-width: 16px;
+      display: inline-block;
+      text-align: center;
+      font-weight: 600;
+      color: #bbdefb;
+      font-size: 0.85rem;
+    }
+    .cart-price {
+      flex: 1;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: #81d4fa;
+      text-align: right;
+      margin-left: 0.5rem;
+      white-space: nowrap;
+    }
+    .cart-delete {
+      color: #f44336;
+      font-size: 0.97rem;
+      margin-left: 0.35rem;
+      cursor: pointer;
+      transition: color 0.2s;
+      background: none;
+      border: none;
+      outline: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cart-delete:hover { color: #ff7961; }
+    .cart-total-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.97rem;
+      font-weight: 700;
+      color: #bbdefb;
+      border-top: 1.5px solid #263859;
+      padding-top: 0.6rem;
+      margin-bottom: 0.7rem;
+    }
+    .cart-checkout-btn {
+      width: 100%;
+      background: #42a5f5;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: bold;
+      padding: 8px 0;
+      cursor: pointer;
+      transition: background 0.2s;
+      box-shadow: 0 3px 12px rgba(66, 165, 245, 0.13);
+      letter-spacing: 0.4px;
+      margin-bottom: 0;
+    }
+    .cart-checkout-btn:hover,
+    .cart-checkout-btn:focus {
+      background: #1976d2;
+    }
+    .menu-scroll-area {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      min-height: 0;
+      position: relative;
+    }
+    .menu-grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.1rem;
+      margin-top: 0.5rem;
+      position: relative;
+      z-index: 0;
+    }
+    /* Menu Card Hover Effect (normal, not above background) */
+    .menu-item-card {
+      display: flex;
+      flex-direction: column;
+      background: #181c24;
+      border: 2px solid #212a40;
+      border-radius: 14px;
+      box-shadow: 0 2px 8px rgba(66,165,245,0.10);
+      transition: border 0.2s, box-shadow 0.2s, transform 0.2s, z-index 0.2s;
+      overflow: hidden;
+      padding-bottom: 0.8rem;
+      position: relative;
+      min-height: 350px;
+      z-index: 1;
+    }
+    .menu-item-card:hover, .menu-item-card:focus-within {
+      border-color: #42a5f5;
+      box-shadow: 0 6px 18px rgba(66,165,245,0.18);
+      transform: translateY(-3px) scale(1.02);
+      z-index: 2;
+    }
+    .menu-item-photo {
+      width: 100%;
+      height: 165px;
+      object-fit: cover;
+      background: #222;
+      border-bottom: 1.5px solid #212a40;
+      margin-bottom: 0.7rem;
+    }
+    .menu-item-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 0 0.8rem;
+    }
+    .menu-item-title {
+      font-size: 1.32rem;
+      font-weight: 700;
+      color: #bbdefb;
+      margin-bottom: 0.18rem;
+      margin-top: 0.12rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .menu-item-desc {
+      font-size: 0.86rem;
+      color: #b0b9c8;
+      margin-bottom: 1.12rem;
+      flex: 1;
+      min-height: 28px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: normal;
+      line-height: 1.3;
+    }
+    .menu-item-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+      padding-top: 0.2rem;
+      gap: 0.7rem;
+    }
+    .menu-item-price {
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: #81d4fa;
+    }
+    .menu-item-add {
+      background: #42a5f5;
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      font-size: 1.06rem;
+      font-weight: 700;
+      padding: 7px 18px;
+      cursor: pointer;
+      transition: background 0.2s;
+      outline: none;
+      box-shadow: 0 2px 7px rgba(66,165,245,0.12);
+      display: flex;
+      align-items: center;
+      gap: 0.3em;
+      user-select: none;
+    }
+    .menu-item-add:hover,
+    .menu-item-add:focus {
+      background: #1976d2;
+    }
+    .menu-section .menu-scroll-area::-webkit-scrollbar,
+    .cart-items-list::-webkit-scrollbar {
+      width: 8px;
+      background: #1a2338;
+    }
+    .menu-section .menu-scroll-area::-webkit-scrollbar-thumb,
+    .cart-items-list::-webkit-scrollbar-thumb {
+      background: #42a5f5;
+      border-radius: 6px;
+    }
+    /* Bottom page gap for all devices */
+    .page-bottom-gap {
+      width: 100vw;
+      min-height: 18px;
+      height: 18px;
+      background: transparent;
+      flex-shrink: 0;
+      pointer-events: none;
+      user-select: none;
+      display: block;
+    }
+    @media (max-width: 1200px) {
+      .container { flex-direction: column; gap: 1rem; height: auto; }
+      .menu-section, .cart-section { max-width: 100vw; width: 100%; min-width: 0; }
+      .menu-section { margin-bottom: 1rem; }
+      .menu-grid { grid-template-columns: repeat(2, 1fr); }
+      .category-bar { max-width: 70vw; }
+      .page-side-gap { display: none; }
+    }
+    @media (max-width: 900px) {
+      .header { flex-direction: column; align-items: flex-start; padding: 14px 8px 10px 8px; }
+      .container { flex-direction: column; gap: 1rem; }
+      .menu-section, .cart-section { min-width: 0; max-width: 100vw; width: 100%; }
+      .menu-grid { grid-template-columns: 1fr; }
+      .category-bar { max-width: 95vw; min-width: 0; }
+      .category-bar-container { position: static; width: 100%; min-width: 0; max-width: 100%; top: auto; right: auto; margin: 12px 0 0 0; }
+      .page-side-gap { display: none; }
+    }
+    @media (max-width: 600px) {
+      .header { flex-direction: column; align-items: flex-start; padding: 12px 6px 5px 6px; }
+      .header .logo { width: 36px; height: 36px; margin-right: 0; margin-bottom: 8px; }
+      .header .title { font-size: 0.99rem; }
+      .container { gap: 0.8rem; }
+      .menu-section, .cart-section { padding: 0.7rem 0.5rem; }
+      .menu-grid { grid-template-columns: 1fr; }
+      .category-bar { max-width: 98vw; min-width: 0; }
+      .category-bar-container { position: static; width: 100%; min-width: 0; max-width: 100%; }
+      .page-side-gap { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <button class="back-button" onclick="goBack()" title="Go Back">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <img class="logo"
+      src="https://raw.githubusercontent.com/Davidbantu/images/4b4f9ad268e7045618a3e517df258e204b5f17d3/Logo.png"
+      alt="Logo"
+    />
+    <span class="title">DINE IN - MENU</span>
+    <div class="category-bar-container">
+      <button type="button" class="category-swiper-arrow" id="cat-arrow-left" title="Scroll Left" tabindex="-1" style="margin-right:4px;"><i class="fas fa-chevron-left"></i></button>
+      <div class="category-bar" id="category-bar"></div>
+      <button type="button" class="category-swiper-arrow" id="cat-arrow-right" title="Scroll Right" tabindex="-1" style="margin-left:4px;"><i class="fas fa-chevron-right"></i></button>
+    </div>
+  </div>
+  <div class="header-spacer"></div>
+  <div class="container">
+    <div class="page-side-gap"></div>
+    <div class="menu-section">
+      <div class="menu-scroll-area">
+        <div class="menu-grid" id="menu-grid"></div>
+      </div>
+    </div>
+    <div class="cart-section">
+      <div class="cart-heading-row">
+        <span class="cart-heading">Your Order</span>
+        <span class="cart-count-badge" id="cart-count-badge">
+          <span class="cart-number" id="cart-number">0</span>
+          <span class="cart-icon"><i class="fas fa-shopping-basket"></i></span>
+        </span>
+      </div>
+      <div class="cart-items-list" id="cart-items-list"></div>
+      <div class="cart-total-row">
+        <span>Total</span>
+        <span id="cart-total-price">$0.00</span>
+      </div>
+      <button class="cart-checkout-btn" id="checkout-btn">Checkout</button>
+    </div>
+    <div class="page-side-gap"></div>
+  </div>
+  <div class="page-bottom-gap"></div>
+  <script>
+    // Open bdm4.html when clicking back button
+    function goBack() {
+      window.location.href = 'bdm4.html';
+    }
+    // CATEGORY & MENU DATA
+    const categories = [
+      { name: "Salads" },
+      { name: "Starters" },
+      { name: "Main Course" },
+      { name: "Pizza" },
+      { name: "Drinks" },
+      { name: "Desserts" },
+      { name: "Other" },
+      { name: "Soups" },
+      { name: "Breads" },
+      { name: "Sides" },
+      { name: "Sandwiches" }
+    ];
+    const menuData = {
+      "Salads": [
+        {
+          name: "Caesar Salad",
+          desc: "Crisp romaine lettuce, parmesan, croutons, and Caesar dressing.",
+          price: 7.25,
+          img: "https://images.unsplash.com/photo-1506089676908-3592f7389d4d?auto=format&fit=crop&w=400&q=80"
+        }
+      ],
+      "Starters": [
+        {
+          name: "Grilled Chicken",
+          desc: "Juicy chicken breast grilled to perfection, served with mixed veggies and our house sauce.",
+          price: 10.99,
+          img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80"
+        },
+           {
+          name: "Steak",
+          desc: "Tender grilled beef steak, served with mashed potatoes and veggies.",
+          price: 19.75,
+          img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80"
+        },
+           {
+          name: "Steak",
+          desc: "Tender grilled beef steak, served with mashed potatoes and veggies.",
+          price: 19.75,
+          img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80"
+        },
+           {
+          name: "Steak",
+          desc: "Tender grilled beef steak, served with mashed potatoes and veggies.",
+          price: 19.75,
+          img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80"
+        },
+           {
+          name: "Steak",
+          desc: "Tender grilled beef steak, served with mashed potatoes and veggies.",
+          price: 19.75,
+          img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80"
+        },
+           {
+          name: "Steak",
+          desc: "Tender grilled beef steak, served with mashed potatoes and veggies.",
+          price: 19.75,
+          img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          name: "Tacos",
+          desc: "Three soft-shell tacos with chicken, salsa, lettuce, and cheese.",
+          price: 8.99,
+          img: "https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?auto=format&fit=crop&w=400&q=80"
+        }
+      ],
+      "Main Course": [
+        {
+          name: "Steak",
+          desc: "Tender grilled beef steak, served with mashed potatoes and veggies.",
+          price: 19.75,
+          img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80"
+        },
+           {
+          name: "Steak",
+          desc: "Tender grilled beef steak, served with mashed potatoes and veggies.",
+          price: 19.75,
+          img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          name: "Pasta Alfredo",
+          desc: "Creamy Alfredo sauce tossed with fettuccine and parmesan cheese.",
+          price: 11.50,
+          img: "https://images.unsplash.com/photo-1502741338009-cac2772e18bc?auto=format&fit=crop&w=400&q=80"
+        }
+      ],
+      "Pizza": [
+        {
+          name: "Veggie Pizza",
+          desc: "Wood-fired pizza with bell peppers, olives, mushrooms, sweetcorn, and mozzarella.",
+          price: 9.99,
+          img: "https://images.unsplash.com/photo-1464306076886-debca5e8a6b0?auto=format&fit=crop&w=400&q=80"
+        }
+      ],
+      "Drinks": [
+        {
+          name: "Fresh Lemonade",
+          desc: "Chilled lemonade with fresh mint and lemon slices.",
+          price: 3.99,
+          img: "https://images.unsplash.com/photo-1464306076886-debca5e8a6b0?auto=format&fit=crop&w=400&q=80"
+        }
+      ],
+      "Desserts": [
+        {
+          name: "Chocolate Cake",
+          desc: "Decadent chocolate cake with rich ganache and a cherry on top.",
+          price: 5.50,
+          img: "https://images.unsplash.com/photo-1523987355523-c7b5b0723cbb?auto=format&fit=crop&w=400&q=80"
+        }
+      ],
+      "Other": [
+        {
+          name: "Classic Burger",
+          desc: "Beef patty, cheddar cheese, lettuce, tomato, onion, and house mayo on a toasted bun.",
+          price: 8.49,
+          img: "https://images.unsplash.com/photo-1519864600265-abb23847ef2c?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          name: "Sushi Platter",
+          desc: "Assorted fresh sushi rolls with wasabi, ginger, and soy sauce.",
+          price: 13.99,
+          img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=400&q=80"
+        }
+      ],
+      "Soups": [
+        {
+          name: "Tomato Soup",
+          desc: "Creamy tomato soup served with basil and croutons.",
+          price: 4.25,
+          img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80"
+        }
+      ],
+      "Breads": [
+        {
+          name: "Garlic Bread",
+          desc: "Toasted bread slices with garlic butter and herbs.",
+          price: 3.50,
+          img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80"
+        }
+      ],
+      "Sides": [
+        {
+          name: "French Fries",
+          desc: "Crispy golden fries served with ketchup.",
+          price: 2.99,
+          img: "https://images.unsplash.com/photo-1519864600265-abb23847ef2c?auto=format&fit=crop&w=400&q=80"
+        }
+      ],
+      "Sandwiches": [
+        {
+          name: "Club Sandwich",
+          desc: "Triple layered sandwich with chicken, lettuce, tomato, and mayo.",
+          price: 7.99,
+          img: "https://images.unsplash.com/photo-1519864600265-abb23847ef2c?auto=format&fit=crop&w=400&q=80"
+        }
+      ]
+    };
+    function renderCategories(selectedCategory) {
+      const bar = document.getElementById('category-bar');
+      bar.innerHTML = '';
+      categories.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.className = 'category-btn' + (cat.name === selectedCategory ? ' active' : '');
+        btn.textContent = cat.name;
+        btn.onclick = () => {
+          renderCategories(cat.name);
+          renderMenu(cat.name);
+        };
+        bar.appendChild(btn);
+      });
+    }
+    function renderMenu(category) {
+      const grid = document.getElementById('menu-grid');
+      grid.innerHTML = '';
+      const items = menuData[category] || [];
+      items.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'menu-item-card';
+        card.innerHTML = `
+          <img class="menu-item-photo" src="${item.img}" alt="${item.name}">
+          <div class="menu-item-content">
+            <div class="menu-item-title">${item.name}</div>
+            <div class="menu-item-desc">${item.desc}</div>
+            <div class="menu-item-bottom">
+              <span class="menu-item-price">$${item.price.toFixed(2)}</span>
+              <button class="menu-item-add"><i class="fas fa-plus"></i> Add</button>
+            </div>
+          </div>
+        `;
+        card.querySelector('.menu-item-add').onclick = () => addToCart(item.name, item.price);
+        grid.appendChild(card);
+      });
+    }
+    let cart = [];
+    function addToCart(name, price) {
+      const idx = cart.findIndex(item => item.name === name);
+      if (idx > -1) {
+        cart[idx].qty += 1;
+      } else {
+        cart.push({ name, price, qty: 1 });
+      }
+      renderCart();
+    }
+    function updateQty(name, delta) {
+      const idx = cart.findIndex(item => item.name === name);
+      if (idx > -1) {
+        cart[idx].qty += delta;
+        if (cart[idx].qty < 1) {
+          cart.splice(idx, 1);
+        }
+      }
+      renderCart();
+    }
+    function deleteItem(name) {
+      cart = cart.filter(item => item.name !== name);
+      renderCart();
+    }
+    function renderCart() {
+      const cartList = document.getElementById('cart-items-list');
+      cartList.innerHTML = '';
+      let total = 0;
+      let totalQty = 0;
+      cart.forEach(item => {
+        total += item.price * item.qty;
+        totalQty += item.qty;
+        const row = document.createElement('div');
+        row.className = 'cart-item-row';
+        const nameDiv = document.createElement('div');
+        nameDiv.className = 'cart-item-name';
+        nameDiv.textContent = item.name;
+        const controlsDiv = document.createElement('div');
+        controlsDiv.className = 'cart-controls';
+        const minusBtn = document.createElement('button');
+        minusBtn.className = 'cart-btn';
+        minusBtn.innerHTML = '<i class="fas fa-minus"></i>';
+        minusBtn.onclick = () => updateQty(item.name, -1);
+        const qtySpan = document.createElement('span');
+        qtySpan.className = 'cart-qty';
+        qtySpan.textContent = item.qty;
+        const plusBtn = document.createElement('button');
+        plusBtn.className = 'cart-btn';
+        plusBtn.innerHTML = '<i class="fas fa-plus"></i>';
+        plusBtn.onclick = () => updateQty(item.name, 1);
+        controlsDiv.appendChild(minusBtn);
+        controlsDiv.appendChild(qtySpan);
+        controlsDiv.appendChild(plusBtn);
+        const priceDiv = document.createElement('div');
+        priceDiv.className = 'cart-price';
+        priceDiv.textContent = `$${(item.price * item.qty).toFixed(2)}`;
+        const delBtn = document.createElement('button');
+        delBtn.className = 'cart-delete';
+        delBtn.innerHTML = '<i class="fas fa-trash"></i>';
+        delBtn.onclick = () => deleteItem(item.name);
+        row.appendChild(nameDiv);
+        row.appendChild(controlsDiv);
+        row.appendChild(priceDiv);
+        row.appendChild(delBtn);
+        cartList.appendChild(row);
+      });
+      document.getElementById('cart-total-price').textContent = `$${total.toFixed(2)}`;
+      document.getElementById('cart-number').textContent = totalQty;
+    }
+    function scrollCategoryBar(dir) {
+      const bar = document.getElementById('category-bar');
+      const scrollAmount = 120;
+      bar.scrollBy({ left: dir * scrollAmount, behavior: 'smooth' });
+    }
+    document.getElementById('cat-arrow-left').onclick = () => scrollCategoryBar(-1);
+    document.getElementById('cat-arrow-right').onclick = () => scrollCategoryBar(1);
+    document.getElementById('checkout-btn').onclick = function() {
+      if (cart.length === 0) {
+        alert('Your order is empty!');
+      } else {
+        window.location.href = 'bdm8.html';
+      }
+    };
+    const defaultCategory = categories[0].name;
+    renderCategories(defaultCategory);
+    renderMenu(defaultCategory);
+    renderCart();
+  </script>
+</body>
+</html>
