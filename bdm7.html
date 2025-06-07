@@ -301,7 +301,11 @@
       const num = Math.floor(1000 + Math.random() * 9000);
       return "#" + num;
     }
-    document.getElementById('order-number').textContent = generateOrderNumber();
+    // Only set order number if not already set in sessionStorage
+    if (!sessionStorage.getItem('orderNumber')) {
+      sessionStorage.setItem('orderNumber', generateOrderNumber());
+    }
+    document.getElementById('order-number').textContent = sessionStorage.getItem('orderNumber');
 
     // Get cart/order data from localStorage (should be set in previous page)
     // In bdm5.html, after checkout, do: localStorage.setItem('orderCart', JSON.stringify(cart));
@@ -345,11 +349,9 @@
 
     // Print button functionality
     document.getElementById('print-btn').onclick = function() {
-      const orderNum = document.getElementById('order-number').textContent;
-      const tableNum = selectedTable;
-      // Optionally, show a print dialog or custom modal
+      // Optionally, you could add table number/order number to print page here
       window.print();
-      // Or send order info to server here
+      // Or send order info to server here if needed
     };
   </script>
 </body>
