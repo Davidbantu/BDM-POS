@@ -868,10 +868,12 @@
     }
     document.getElementById('cat-arrow-left').onclick = () => scrollCategoryBar(-1);
     document.getElementById('cat-arrow-right').onclick = () => scrollCategoryBar(1);
+    // UPDATED CHECKOUT BUTTON LOGIC TO SAVE CART TO LOCALSTORAGE
     document.getElementById('checkout-btn').onclick = function() {
       if (cart.length === 0) {
         alert('Your order is empty!');
       } else {
+        localStorage.setItem('orderCart', JSON.stringify(cart));
         window.location.href = 'bdm7.html';
       }
     };
