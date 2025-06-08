@@ -263,11 +263,11 @@
       .table-section { min-width: 0; }
       .table-box { width: 38px; height: 38px; font-size: 1rem; }
     }
-
+    /* BILL PRINTER STYLES */
     @media print {
-  body > *:not(#print-bill) { display:none !important; }
-  #print-bill { display:block !important; }
-}
+      body > *:not(#print-bill) { display:none !important; }
+      #print-bill { display:block !important; }
+    }
   </style>
 </head>
 <body>
@@ -295,70 +295,46 @@
     </div>
   </div>
 
-  <!-- ... (keep all previous code up to the container) ... -->
-<div class="container">
-  <div class="order-section">
-    <div class="order-title">Your Order</div>
-    <div class="order-items-list" id="order-items-list"></div>
-    <div class="order-total-row">
-      <span>Total</span>
-      <span id="order-total-price">$0.00</span>
+  <!-- HIDDEN PRINT BILL FOR BILL PRINTERS (58mm/80mm) -->
+  <div id="print-bill" style="display:none; font-family:'monospace',monospace; color:#000;">
+    <div style="width:58mm; max-width:58mm; margin:0 auto; padding:8px 0;">
+      <div style="text-align:center; font-weight:bold; font-size:1.15em; margin-bottom:3px;">DINE IN RESTAURANT</div>
+      <div style="text-align:center; font-size:1em; margin-bottom:2px;">Order <span id="bill-order-number"></span></div>
+      <div style="text-align:center; margin-bottom:8px;">Table: <span id="bill-table-number"></span></div>
+      <hr style="border:none;border-top:1px dashed #AAA;margin:0 0 5px 0;">
+      <table style="width:100%;font-size:0.95em;border-collapse:collapse;">
+        <thead>
+          <tr>
+            <th style="text-align:left;">Item</th>
+            <th style="text-align:center;">Q</th>
+            <th style="text-align:right;">Amt</th>
+          </tr>
+        </thead>
+        <tbody id="bill-items-list"></tbody>
+      </table>
+      <hr style="border:none;border-top:1px dashed #AAA;margin:5px 0 0 0;">
+      <div style="font-weight:bold; font-size:1.07em; text-align:right; margin-top:3px;">
+        Total: <span id="bill-total-price"></span>
+      </div>
+      <div style="text-align:center;font-size:0.95em;margin-top:12px;">Thank you!</div>
     </div>
   </div>
-  <div class="table-section">
-    <div class="table-title">Select Table Number</div>
-    <div class="table-select-row" id="table-select-row"></div>
-    <button class="print-btn" id="print-btn">Print</button>
-  </div>
-</div>
-
-<!-- Hidden Bill for Printing -->
-<div id="print-bill" style="display:none; font-family:'Poppins',sans-serif; color:#000;">
-  <div style="width:300px; margin:0 auto; padding:24px 0;">
-    <h2 style="text-align:center;margin:0 0 16px 0;">DINE IN RESTAURANT</h2>
-    <div style="font-size:1.2em;text-align:center;margin-bottom:10px;">
-      Order <span id="bill-order-number"></span>
-    </div>
-    <div style="text-align:center;margin-bottom:10px;">
-      Table: <span id="bill-table-number"></span>
-    </div>
-    <table style="width:100%;border-collapse:collapse;font-size:1em;margin-bottom:10px;">
-      <thead>
-        <tr>
-          <th style="text-align:left;">Item</th>
-          <th style="text-align:center;">Qty</th>
-          <th style="text-align:right;">Price</th>
-        </tr>
-      </thead>
-      <tbody id="bill-items-list"></tbody>
-    </table>
-    <div style="border-top:1px dashed #555;padding-top:8px;font-weight:bold;font-size:1.1em;">
-      Total: <span id="bill-total-price"></span>
-    </div>
-    <div style="text-align:center;margin-top:22px;">Thank you!</div>
-  </div>
-</div>
 
   <script>
-    // Go back to menu page
     function goBack() {
       window.location.href = 'bdm5.html';
     }
 
-    // Sample order number, you can randomize or set dynamically
+    // Order number only set once per session
     function generateOrderNumber() {
-      // For demo: random 4-digit number
       const num = Math.floor(1000 + Math.random() * 9000);
       return "#" + num;
     }
-    // Only set order number if not already set in sessionStorage
     if (!sessionStorage.getItem('orderNumber')) {
       sessionStorage.setItem('orderNumber', generateOrderNumber());
     }
     document.getElementById('order-number').textContent = sessionStorage.getItem('orderNumber');
 
-    // Get cart/order data from localStorage (should be set in previous page)
-    // In bdm5.html, after checkout, do: localStorage.setItem('orderCart', JSON.stringify(cart));
     function loadOrder() {
       const order = JSON.parse(localStorage.getItem('orderCart') || "[]");
       let total = 0;
@@ -397,37 +373,29 @@
     }
     renderTableBoxes();
 
-    // Print button functionality
+    // PRINT BILL FOR BILL PRINTER (58mm/80mm)
     document.getElementById('print-btn').onclick = function() {
-      // Optionally, you could add table number/order number to print page here
+      document.getElementById('bill-order-number').textContent = sessionStorage.getItem('orderNumber');
+      document.getElementById('bill-table-number').textContent = selectedTable;
+      const order = JSON.parse(localStorage.getItem('orderCart') || "[]");
+      let total = 0;
+      let billItemsHtml = '';
+      order.forEach(item => {
+        total += item.price * item.qty;
+        billItemsHtml += `
+          <tr>
+            <td>${item.name}</td>
+            <td style="text-align:center;">${item.qty}</td>
+            <td style="text-align:right;">$${(item.price * item.qty).toFixed(2)}</td>
+          </tr>
+        `;
+      });
+      document.getElementById('bill-items-list').innerHTML = billItemsHtml;
+      document.getElementById('bill-total-price').textContent = '$' + total.toFixed(2);
+
+      // Print only the bill section (for 58mm/80mm)
       window.print();
-      // Or send order info to server here if needed
     };
-
-      // Print button functionality - PRINTS THE BILL
-  document.getElementById('print-btn').onclick = function() {
-    // Fill bill content for print
-    document.getElementById('bill-order-number').textContent = sessionStorage.getItem('orderNumber');
-    document.getElementById('bill-table-number').textContent = selectedTable;
-    const order = JSON.parse(localStorage.getItem('orderCart') || "[]");
-    let total = 0;
-    let billItemsHtml = '';
-    order.forEach(item => {
-      total += item.price * item.qty;
-      billItemsHtml += `
-        <tr>
-          <td>${item.name}</td>
-          <td style="text-align:center;">${item.qty}</td>
-          <td style="text-align:right;">$${(item.price * item.qty).toFixed(2)}</td>
-        </tr>
-      `;
-    });
-    document.getElementById('bill-items-list').innerHTML = billItemsHtml;
-    document.getElementById('bill-total-price').textContent = '$' + total.toFixed(2);
-
-    // Show bill and print only the bill section
-    window.print();
-  };
   </script>
 </body>
 </html>
